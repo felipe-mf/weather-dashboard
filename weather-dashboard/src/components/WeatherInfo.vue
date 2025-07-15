@@ -2,6 +2,7 @@
   <div v-if="weather && weather.main" class="weather-container">
     <div class="main-weather-card">
       <div class="location">
+        <h2>{{ weather.name }}, {{ weather.sys?.country || '?' }}</h2>
       </div>
       
       <div class="main-info">
@@ -81,6 +82,14 @@ const capitalizeFirst = (str: string): string => {
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.location h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  text-align: center;
 }
 
 .main-info {

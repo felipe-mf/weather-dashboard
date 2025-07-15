@@ -86,27 +86,30 @@ const fetchWeather = async () => {
   min-height: 100vh;
   color: white;
   border-radius: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; 
   overflow-x: hidden;
-  width: 100vw;
+  /* width: 100vw;
   position: relative;
   left: 50%;
   right: 50%;
   margin-left: -50vw;
-  margin-right: -50vw;
+  margin-right: -50vw; */
+  width: 100%;
+  margin: 0;
+  position: static;
 }
 
 .dashboard h1 {
   font-size: 3rem;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 0.5rem;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.2;
 }
 .dashboard h3 {
-  font-size: 1.2rem;
-  font-weight: 300;
+  font-size: 1.3rem;
+  font-weight: 400;
   margin-bottom: 2rem;
   color: rgba(255, 255, 255, 0.9);
   opacity: 0.8;

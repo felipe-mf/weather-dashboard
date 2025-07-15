@@ -10,6 +10,9 @@ export interface WeatherData {
     speed: number;
     deg: number;
   };
+  sys: {
+    country: string;
+  };
   visibility: number;
   clouds: {
     all: number;
