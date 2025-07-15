@@ -1,0 +1,219 @@
+<template>
+  <div v-if="weather && weather.main" class="weather-container">
+    <div class="main-weather-card">
+      <div class="location">
+      </div>
+      
+      <div class="main-info">
+        <div class="temperature">
+          <span class="temp-icon">☀️</span>
+          <span class="temp-value">{{ Math.round(weather.main.temp) }}°C</span>
+        </div>
+        
+        <div class="condition">
+          <p class="condition-text">{{ capitalizeFirst(weather.weather[0].description) }}</p>
+          <p class="feels-like">Feels like {{ Math.round(weather.main.feels_like) }}°C</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="weather-details">
+      <div class="detail-card">
+        <div class="detail-icon">💧</div>
+        <div class="detail-content">
+          <span class="detail-label">Humidity</span>
+          <span class="detail-value">{{ weather.main.humidity }}<span class="unit"> %</span></span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">💨</div>
+        <div class="detail-content">
+          <span class="detail-label">Wind Speed</span>
+          <span class="detail-value">{{ weather.wind?.speed || 0 }}<span class="unit"> m/s</span></span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">🌡️</div>
+        <div class="detail-content">
+          <span class="detail-label">Pressure</span>
+          <span class="detail-value">{{ weather.main.pressure }}<span class="unit"> hPa</span></span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">👁️</div>
+        <div class="detail-content">
+          <span class="detail-label">Visibility</span>
+          <span class="detail-value">{{ weather.visibility ? Math.round(weather.visibility / 1000) : 10 }}<span class="unit"> km</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { WeatherData } from '../types/weather'
+
+defineProps<{
+  weather: WeatherData | null
+}>()
+
+const capitalizeFirst = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+</script>
+
+<style scoped>
+.weather-container {
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-weather-card {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.main-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.temperature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.temp-icon {
+  font-size: 3rem;
+}
+
+.temp-value {
+  font-size: 4rem;
+  font-weight: 300;
+  color: #2c3e50;
+  line-height: 1;
+}
+
+.condition {
+  text-align: center;
+}
+
+.condition-text {
+  font-size: 1.2rem;
+  color: #546e7a;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.feels-like {
+  font-size: 1rem;
+  color: #78909c;
+  margin: 0;
+}
+
+.weather-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.detail-card {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.detail-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.detail-icon {
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail-label {
+  font-size: 0.9rem;
+  color: #78909c;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.unit {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #78909c;
+}
+
+@media (max-width: 768px) {
+  .main-weather-card {
+    padding: 1.5rem;
+  }
+  
+  .temp-value {
+    font-size: 3rem;
+  }
+  
+  .temp-icon {
+    font-size: 2.5rem;
+  }
+  
+  .weather-details {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .detail-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-details {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .detail-card {
+    padding: 1rem;
+  }
+  
+  .detail-icon {
+    font-size: 1.5rem;
+  }
+  
+  .detail-value {
+    font-size: 1.25rem;
+  }
+}
+</style>
