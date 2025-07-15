@@ -234,10 +234,9 @@ const precipitationChartOptions = computed(() => ({
 
 .analytics-container {
   margin-top: 1.5rem;
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 20%);
   padding: 1.5rem;
   border-radius: 15px;
-  border: 1px solid #ddd;
   width: 100%;
   max-width: 1200px;
   margin-left: auto;

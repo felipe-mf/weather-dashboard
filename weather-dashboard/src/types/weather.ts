@@ -19,6 +19,7 @@ export interface WeatherData {
   };
   weather: Array<{
     description: string;
+    icon: string;
   }>;
 }
 

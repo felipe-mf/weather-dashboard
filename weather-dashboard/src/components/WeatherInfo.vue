@@ -7,7 +7,12 @@
       
       <div class="main-info">
         <div class="temperature">
-          <span class="temp-icon">☀️</span>
+          <img 
+            v-if="weather.weather[0].icon" 
+            :src="getWeatherIconUrl(weather.weather[0].icon)" 
+            :alt="weather.weather[0].description"
+            class="weather-icon"
+          />
           <span class="temp-value">{{ Math.round(weather.main.temp) }}°C</span>
         </div>
         
@@ -64,6 +69,10 @@ defineProps<{
 const capitalizeFirst = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+const getWeatherIconUrl = (iconCode: string): string => {
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+}
 </script>
 
 <style scoped>
@@ -81,7 +90,7 @@ const capitalizeFirst = (str: string): string => {
   border-radius: 20px;
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* border: 1px solid rgba(255, 255, 255, 0.3); */
 }
 
 .location h2 {
@@ -106,13 +115,16 @@ const capitalizeFirst = (str: string): string => {
   margin-bottom: 0.5rem;
 }
 
-.temp-icon {
-  font-size: 3rem;
+.weather-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .temp-value {
   font-size: 4rem;
-  font-weight: 300;
+  font-weight: 400;
   color: #2c3e50;
   line-height: 1;
 }
@@ -148,7 +160,7 @@ const capitalizeFirst = (str: string): string => {
   align-items: center;
   gap: 1rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* border: 1px solid rgba(255, 255, 255, 0.5); */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -195,8 +207,9 @@ const capitalizeFirst = (str: string): string => {
     font-size: 3rem;
   }
   
-  .temp-icon {
-    font-size: 2.5rem;
+  .weather-icon {
+    width: 60px;
+    height: 60px;
   }
   
   .weather-details {
@@ -223,6 +236,11 @@ const capitalizeFirst = (str: string): string => {
   
   .detail-value {
     font-size: 1.25rem;
+  }
+  
+  .weather-icon {
+    width: 50px;
+    height: 50px;
   }
 }
 </style>

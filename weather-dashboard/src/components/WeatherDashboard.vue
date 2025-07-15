@@ -1,5 +1,4 @@
 <template>
-  
   <div class="dashboard">
     <h1>Weather Dashboard</h1>
     <h3>Real time weather insights</h3>
@@ -60,13 +59,10 @@ const fetchWeather = async () => {
       `https://api.openweathermap.org/data/2.5/forecast?q=${city.value}&appid=${apiKey}&units=metric`
     )
 
-    // console.log(forecastRes.data)
-
     forecast.value = forecastRes.data.list.filter((entry: ForecastItem) => 
       entry.dt_txt.includes('12:00:00')
     ).slice(0, 5)
 
-    //console.log(forecast.value)
 
   } catch (error: any) {
     errorMessage.value = 'Invalid city name.'
@@ -88,12 +84,6 @@ const fetchWeather = async () => {
   border-radius: 0;
   box-sizing: border-box; 
   overflow-x: hidden;
-  /* width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw; */
   width: 100%;
   margin: 0;
   position: static;
