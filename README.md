@@ -6,7 +6,7 @@ Weather dashboard built with Vue.js+ Vite, using the [OpenWeatherMap API](https:
 ### The frontend-challenge branch contains the code for the mandatory part of the challenge.
 ### The backend-challenge branch contains the code for the optional backend challenge.
 
-![Preview Screenshot](./weather-dashboard/src/assets/preview.png)
+![Preview Screenshot](./weather-dashboard/frontend/src/assets/preview.png)
 
 ## How to Use:
 Note: Make sure you use a valid [OpenWeatherMap API](https://openweathermap.org/api) key on your .env file, folow the .env.example file for reference. 
