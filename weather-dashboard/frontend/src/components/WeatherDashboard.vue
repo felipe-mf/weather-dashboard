@@ -46,17 +46,19 @@ const fetchWeather = async () => {
   }
 
   try {
-    const apiKey = import.meta.env.VITE_WEATHER_API_KEY
+    // const apiKey = import.meta.env.VITE_WEATHER_API_KEY
 
     const weatherRes = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=metric`
+      `http://localhost:5000/api/weather?q=${city.value}&units=metric`
+      // `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=metric`
     )
     weather.value = weatherRes.data
     console.log(weatherRes.data)
 
 
     const forecastRes = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city.value}&appid=${apiKey}&units=metric`
+      `http://localhost:5000/api/forecast?q=${city.value}&units=metric`
+      // `https://api.openweathermap.org/data/2.5/forecast?q=${city.value}&appid=${apiKey}&units=metric`
     )
 
     forecast.value = forecastRes.data.list.filter((entry: ForecastItem) => 
