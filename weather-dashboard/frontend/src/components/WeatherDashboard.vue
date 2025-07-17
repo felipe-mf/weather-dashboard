@@ -46,11 +46,8 @@ const fetchWeather = async () => {
   }
 
   try {
-    // const apiKey = import.meta.env.VITE_WEATHER_API_KEY
-
     const weatherRes = await axios.get(
       `http://localhost:5000/api/weather?q=${city.value}&units=metric`
-      // `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=metric`
     )
     weather.value = weatherRes.data
     console.log(weatherRes.data)
@@ -58,7 +55,6 @@ const fetchWeather = async () => {
 
     const forecastRes = await axios.get(
       `http://localhost:5000/api/forecast?q=${city.value}&units=metric`
-      // `https://api.openweathermap.org/data/2.5/forecast?q=${city.value}&appid=${apiKey}&units=metric`
     )
 
     forecast.value = forecastRes.data.list.filter((entry: ForecastItem) => 
@@ -67,8 +63,41 @@ const fetchWeather = async () => {
 
 
   } catch (error: any) {
-    errorMessage.value = 'Invalid city name.'
-    console.error(error)
+    console.error('Error details', error)
+  
+    if (error.response) {
+      const status = error.response.status
+      const data = error.response.data
+      
+      switch (status) {
+        case 429:
+          if (data.type === 'RATE_LIMIT_EXCEEDED') {
+            errorMessage.value = `Too many requests. Please try again in ${data.retryAfter || '10 minutes'}.`
+          } else {
+            errorMessage.value = 'Too many requests. Please try again later.'
+          }
+          break
+          
+        case 404:
+          errorMessage.value = 'City not found. Please check the city name and try again.'
+          break
+          
+        case 401:
+          errorMessage.value = 'API authentication failed. Please try again later.'
+          break
+          
+        case 500:
+          errorMessage.value = 'Server error. Please try again later.'
+          break
+          
+        default:
+          errorMessage.value = data.error || 'An error occurred while fetching weather data.'
+      }
+    } else if (error.request) {
+      errorMessage.value = 'Network error. Please check your connection and try again.'
+    } else {
+      errorMessage.value = 'An unexpected error occurred. Please try again.'
+    }
   }
 }
 

@@ -60,7 +60,6 @@ exports.get_weather = async (req, res) => {
                     });
             }
         } else {
-            // Erro de rede ou outros
             res.status(500).json({ 
                 error: 'Failed to fetch weather data',
                 type: 'NETWORK_ERROR' 
