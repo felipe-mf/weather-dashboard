@@ -28,7 +28,6 @@ git checkout frontend-challenge
 
 ```bash
 cd weather-dashboard
-cd frontend
 npm install
 ```
 
