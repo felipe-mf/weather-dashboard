@@ -10,7 +10,7 @@ Weather dashboard built with Vue.js+ Vite, using the [OpenWeatherMap API](https:
 ![Preview Screenshot](./weather-dashboard/src/assets/preview.png)
 
 ## How to Use:
-Note: Make sure you use a valid [OpenWeatherMap API](https://openweathermap.org/api) key on your .env file, folow the .env.example file for reference. 
+⚠️ Note: Make sure you use a valid [OpenWeatherMap API](https://openweathermap.org/api) key on your .env file, folow the .env.example file for reference. 
 
 ### 1. Clone the repository
 
