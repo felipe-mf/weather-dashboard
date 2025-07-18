@@ -58,19 +58,15 @@ const fetchWeather = async () => {
   loading.value = true 
 
   try {
+
+    console.log(`Fetching weather for city: ${city.value}`)
+
     const weatherRes = await axios.get(
       `http://localhost:5000/api/weather?q=${city.value}&units=metric`
     )
-    weather.value = weatherRes.data
-    console.log(weatherRes.data)
 
-    const forecastRes = await axios.get(
-      `http://localhost:5000/api/forecast?q=${city.value}&units=metric`
-    )
-
-    forecast.value = forecastRes.data.list.filter((entry: ForecastItem) => 
-      entry.dt_txt.includes('12:00:00')
-    ).slice(0, 5)
+    weather.value = weatherRes.data.weather
+    forecast.value = weatherRes.data.forecast
 
   } catch (error: any) {
     handleApiError(error, (msg) => errorMessage.value = msg)

@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const rateLimit = require('express-rate-limit');
+const controller = require("./controllers/controller");
+const apicache = require("apicache");
 const PORT = process.env.PORT || 5000;
 
 const app = express()
@@ -28,8 +30,10 @@ const limiter = rateLimit({
 
 app.use(limiter)
 
-app.use('/api', require('./routes/weatherRoute'))
-app.use('/api', require('./routes/forecastRoute'))
+let cache = apicache.middleware('5 minutes', (req, res) => {
+    return res.statusCode === 200;
+});
 
+app.get("/api/weather", cache, controller.get_weather);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

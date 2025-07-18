@@ -1,32 +1,32 @@
-const url = require('url')
-const axios = require('axios');
+const url = require("url");
+const axios = require("axios");
 
 const API_BASE_URL = process.env.API_BASE_URL;
 const API_KEY_NAME = process.env.API_KEY_NAME;
 const API_KEY_VALUE = process.env.API_KEY_VALUE;
 
+exports.get_weather = async (req, res) => {
+  try {
+    const params = new URLSearchParams({
+      ...url.parse(req.url, true).query,
+      [API_KEY_NAME]: API_KEY_VALUE,
+    });
 
-exports.get_forecast = async (req, res) => {
+    const apiWeatherRes = await axios.get(`${API_BASE_URL}weather?${params}`);
+
+    const apiForecastRes = await axios.get(`${API_BASE_URL}forecast?${params}`);
+
+    const fiveDaysForecast = apiForecastRes.data.list.filter((entry) => entry.dt_txt && entry.dt_txt.includes("12:00:00")).slice(0, 5);
+
+    res.status(200).json({
+      weather: apiWeatherRes.data,
+      forecast: fiveDaysForecast,
+    });
+
+  } catch (error) {
+    console.error("Error fetching forecast:", error);
     
-    const x = url.parse(req.url, true).query;
-    console.log('----forecast----');
-    console.log(x);
-
-    try {
-        const params = new URLSearchParams({
-            ...url.parse(req.url, true).query,
-            [API_KEY_NAME]: API_KEY_VALUE,
-        })
-
-        const apiRes = await axios.get(`${API_BASE_URL}forecast?${params}`)
-        const data = apiRes.data
-
-        console.log(`REQUEST FORECAST: ${API_BASE_URL}forecast?${params}`)
-
-        res.status(200).json(data)
-    } catch (error) {
-        console.error('Error fetching forecast:', error);
-        if (error.response) {
+    if (error.response) {
             const status = error.response.status
             const data = error.response.data
             
@@ -55,12 +55,11 @@ exports.get_forecast = async (req, res) => {
                         type: 'EXTERNAL_API_ERROR' 
                     });
             }
-        } else {
-            res.status(500).json({ 
-                error: 'Failed to fetch weather data',
-                type: 'NETWORK_ERROR' 
-            });
-        }
+    } else {
+        res.status(500).json({ 
+            error: 'Failed to fetch weather data',
+            type: 'NETWORK_ERROR' 
+        });
     }
-   
-}
+  }
+};
