@@ -8,11 +8,19 @@
         v-model="city" 
         placeholder="Enter city name" 
         @keyup.enter="fetchWeather" 
+        :disabled="loading"
       />
-      <button @click="fetchWeather">Search</button>
+      <button @click="fetchWeather" :disabled="loading">
+        {{ loading ? 'Searching...' : 'Search' }}
+      </button>
     </div>
 
-    <template v-if="!errorMessage">
+    <div v-if="loading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Fetching weather data...</p>
+    </div>
+
+    <template v-else-if="!errorMessage">
       <WeatherInfo :weather="weather" />
       <WeatherForecast :forecast="forecast" />
     </template>
@@ -28,12 +36,14 @@ import { ref } from 'vue'
 import axios from 'axios'
 import WeatherInfo from './WeatherInfo.vue'
 import WeatherForecast from './WeatherForecast.vue'
+import { handleApiError } from '../utils/handleApiError'
 import type { WeatherData, ForecastItem } from '../types/weather'
 
 const city = ref('')
 const weather = ref<WeatherData | null>(null)
 const forecast = ref<ForecastItem[]>([])
 const errorMessage = ref('')
+const loading = ref(false)
 
 const fetchWeather = async () => {
   errorMessage.value = ''
@@ -45,6 +55,8 @@ const fetchWeather = async () => {
     return
   }
 
+  loading.value = true
+
   try {
     const apiKey = import.meta.env.VITE_WEATHER_API_KEY
 
@@ -54,7 +66,6 @@ const fetchWeather = async () => {
     weather.value = weatherRes.data
     console.log(weatherRes.data)
 
-
     const forecastRes = await axios.get(
       `https://api.openweathermap.org/data/2.5/forecast?q=${city.value}&appid=${apiKey}&units=metric`
     )
@@ -63,17 +74,15 @@ const fetchWeather = async () => {
       entry.dt_txt.includes('12:00:00')
     ).slice(0, 5)
 
-
   } catch (error: any) {
-    errorMessage.value = 'Invalid city name.'
-    console.error(error)
+    errorMessage.value = handleApiError(error)
+  } finally {
+    loading.value = false
   }
 }
-
 </script>
 
 <style scoped>
-
 .dashboard {
   text-align: center;
   padding: 2rem;
@@ -97,6 +106,7 @@ const fetchWeather = async () => {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.2;
 }
+
 .dashboard h3 {
   font-size: 1.3rem;
   font-weight: 400;
@@ -132,6 +142,11 @@ const fetchWeather = async () => {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+.search input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .search input::placeholder {
   color: #999;
 }
@@ -146,12 +161,54 @@ const fetchWeather = async () => {
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  min-width: 120px;
 }
 
-.search button:hover {
+.search button:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.search button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 .error {
@@ -171,7 +228,6 @@ const fetchWeather = async () => {
   .dashboard {
     padding: 1rem;
   }
-  
 }
 
 @media (max-width: 768px) {
