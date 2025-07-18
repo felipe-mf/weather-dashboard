@@ -3,9 +3,11 @@ const router = express.Router();
 const forecastController = require('../controllers/forecastController')
 const apicache = require('apicache');
 
-let cache = apicache.middleware;
+let cache = apicache.middleware('5 minutes', (req, res) => {
+    return res.statusCode === 200;
+});
 
 
-router.get('/forecast', cache('5 minutes'), forecastController.get_forecast)
+router.get('/forecast', cache, forecastController.get_forecast)
 
 module.exports = router;

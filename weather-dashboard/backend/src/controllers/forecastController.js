@@ -21,10 +21,7 @@ exports.get_forecast = async (req, res) => {
         const apiRes = await axios.get(`${API_BASE_URL}forecast?${params}`)
         const data = apiRes.data
 
-        // debug logging the request
-        if(process.env.NODE_ENV !== 'production'){
-            console.log(`REQUEST FORECAST: ${API_BASE_URL}forecast?${params}`)
-        }
+        console.log(`REQUEST FORECAST: ${API_BASE_URL}forecast?${params}`)
 
         res.status(200).json(data)
     } catch (error) {

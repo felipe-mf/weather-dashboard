@@ -21,10 +21,7 @@ exports.get_weather = async (req, res) => {
         const apiRes = await axios.get(`${API_BASE_URL}weather?${params}`)
         const data = apiRes.data
 
-        // debug logging the request
-        if(process.env.NODE_ENV !== 'production'){
-            console.log(`REQUEST WEATHER: ${API_BASE_URL}weather?${params}`)
-        }
+        console.log(`REQUEST WEATHER: ${API_BASE_URL}weather?${params}`)
 
         res.status(200).json(data)
     } catch (error) {
