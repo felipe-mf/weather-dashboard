@@ -4,13 +4,13 @@
 Weather dashboard built with Vue.js+ Vite, using the [OpenWeatherMap API](https://openweathermap.org/api). The application allows users to search for any city and view current weather conditions along with a 5-day forecast.
 
 ### The main branch contains the code for the mandatory part of the challenge.
-### The frontend-challenge branch contains the code for the mandatory part of the challenge.
 ### The backend-challenge branch contains the code for the optional backend challenge.
 
-![Preview Screenshot](./weather-dashboard/frontend/src/assets/preview.png)
+![Preview Screenshot](./weather-dashboard/frontend/src/assets/dashboard-preview.png)
 
 ## How to Use:
 ### ⚠️ Note: Make sure you use a valid [OpenWeatherMap API](https://openweathermap.org/api) key on your .env file, folow the .env.example file for reference. 
+### ⚠️ Use Node.js v22.11.0 or later
 
 ### 1. Clone the repository
 
@@ -24,7 +24,7 @@ git checkout backend-challenge
 ```
 
 ### 3. Install backend dependencies
-#### Recommended version: Node.js v22.11.0 or later
+#### Required version: Node.js v22.11.0 or later
 
 ```bash
 cd weather-dashboard
@@ -33,7 +33,7 @@ npm install
 ```
 
 ### 4. Install frontend dependencies
-#### Recommended version: Node.js v22.11.0 or later
+#### Required version: Node.js v22.11.0 or later
 
 ```bash
 cd weather-dashboard
