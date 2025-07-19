@@ -4,7 +4,7 @@
 Weather dashboard built with Vue.js+ Vite, using the [OpenWeatherMap API](https://openweathermap.org/api). The application allows users to search for any city and view current weather conditions along with a 5-day forecast.
 
 ### The main branch contains the code for the mandatory part of the challenge.
-### The backend-challenge branch contains the code for the optional backend challenge.
+### The backend-challenge branch contains the code for the optional backend challenge (including the frontend).
 
 ![Preview Screenshot](./weather-dashboard/src/assets/dashboard-preview.png)
 
