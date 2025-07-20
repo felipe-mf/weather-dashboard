@@ -15,7 +15,7 @@ Weather dashboard built with Vue.js+ Vite, using the [OpenWeatherMap API](https:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/weather-dashboard.git
+git clone https://github.com/felipe-mf/weather-dashboard.git
 ```
 ### 2. Make sure you're on the right branch
 #### In this case, the mandatory part is on the main branch
