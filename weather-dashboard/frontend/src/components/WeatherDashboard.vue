@@ -101,6 +101,7 @@ const fetchWeather = async () => {
   line-height: 1.2;
 }
 
+
 .dashboard h3 {
   font-size: 1.3rem;
   font-weight: 400;
@@ -141,6 +142,11 @@ const fetchWeather = async () => {
   cursor: not-allowed;
 }
 
+.search input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .search input::placeholder {
   color: #999;
 }
@@ -155,6 +161,7 @@ const fetchWeather = async () => {
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  min-width: 120px;
   min-width: 120px;
 }
 
