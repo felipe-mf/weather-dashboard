@@ -55,27 +55,21 @@ const fetchWeather = async () => {
     return
   }
 
-  loading.value = true
+  loading.value = true 
 
   try {
-    const apiKey = import.meta.env.VITE_WEATHER_API_KEY
+
+    console.log(`Fetching weather for city: ${city.value}`)
 
     const weatherRes = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=metric`
-    )
-    weather.value = weatherRes.data
-    console.log(weatherRes.data)
-
-    const forecastRes = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city.value}&appid=${apiKey}&units=metric`
+      `http://localhost:5000/api/weather?q=${city.value}&units=metric`
     )
 
-    forecast.value = forecastRes.data.list.filter((entry: ForecastItem) => 
-      entry.dt_txt.includes('12:00:00')
-    ).slice(0, 5)
+    weather.value = weatherRes.data.weather
+    forecast.value = weatherRes.data.forecast
 
   } catch (error: any) {
-    errorMessage.value = handleApiError(error)
+    handleApiError(error, (msg) => errorMessage.value = msg)
   } finally {
     loading.value = false
   }
@@ -106,6 +100,7 @@ const fetchWeather = async () => {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.2;
 }
+
 
 .dashboard h3 {
   font-size: 1.3rem;
@@ -147,6 +142,11 @@ const fetchWeather = async () => {
   cursor: not-allowed;
 }
 
+.search input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .search input::placeholder {
   color: #999;
 }
@@ -162,6 +162,7 @@ const fetchWeather = async () => {
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   min-width: 120px;
+  min-width: 120px;
 }
 
 .search button:hover:not(:disabled) {
@@ -176,6 +177,7 @@ const fetchWeather = async () => {
   transform: none;
 }
 
+/* Loading Animation Styles */
 .loading-container {
   display: flex;
   flex-direction: column;

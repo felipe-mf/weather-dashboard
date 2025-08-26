@@ -19,6 +19,7 @@
           </div>
           
           <div class="condition">
+            <!-- <p class="condition-text">{{ capitalizeFirst(weather.weather[0].description) }}</p> -->
             <p class="condition-text capitalize">{{ weather.weather[0].description }}</p>
             <p class="feels-like">Feels like {{ Math.round(weather.main.feels_like) }}°C</p>
           </div>
